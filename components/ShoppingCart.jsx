@@ -1,0 +1,28 @@
+import { useShoppingCart } from "use-shopping-cart";
+import { CartChild } from "@/components/CartChild";
+import { CheckoutButton } from "@/components/CheckoutButton";
+
+export function ShoppingCart() {
+  const { shouldDisplayCart, cartCount, cartDetails } = useShoppingCart();
+  return (
+    <div
+      className={`bg-white flex flex-col absolute right-3 md:right-9 top-20 w-96 py-4 px-4 shadow-[0_5px_15px_0_rgba(0,0,0,.15)] rounded-md transition-opacity duration-500 ${
+        shouldDisplayCart ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <div className="flex flex-row justify-between py-5 border-b border-GrayishBlue border-opacity-50">
+        <p className="font-bold text-xl">Cart</p>
+      </div>
+      {cartCount && cartCount > 0 ? (
+        <>
+          {Object.values(cartDetails ?? {}).map((entry) => (
+            <CartChild key={entry.id} item={entry} />
+          ))}
+          <CheckoutButton />
+        </>
+      ) : (
+        <div className="p-5">You have no items in your cart</div>
+      )}
+    </div>
+  );
+}
